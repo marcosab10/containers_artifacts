@@ -7,7 +7,6 @@ kind: Deployment
 metadata:
   name: poi-deployment
   namespace: api
-
 spec:
   selector:
     matchLabels:
@@ -17,51 +16,23 @@ spec:
     metadata:
       labels:
         app: poi-deployment
-        role: poi
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
       - name: poi
         image: registrylcg5206.azurecr.io/poi:1.0
-        securityContext:
-          runAsUser: 1000
-          allowPrivilegeEscalation: false
-        volumeMounts:
-          - name: secret-volume # same name as volume below
-            mountPath: "/mnt/secrets"
-            readOnly: true
         ports:
         - containerPort: 80
         env:
         - name: SQL_SERVER
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_SERVER
+          value: "host.docker.internal"
         - name: SQL_DBNAME
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_DBNAME
+          value: "mydrivingDB"
         - name: SQL_USER
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_USER
+          value: "SA"
         - name: SQL_PASSWORD
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_PASSWORD
-      volumes:
-      - name: secret-volume
-        csi:
-          driver: secrets-store.csi.k8s.io
-          readOnly: true
-          volumeAttributes:
-            secretProviderClass: kv-desafio4
-
+          value: "Vivo123@"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Local"
 ---
 
 apiVersion: apps/v1
@@ -69,7 +40,6 @@ kind: Deployment
 metadata:
   name: user-deployment
   namespace: api
-
 spec:
   selector:
     matchLabels:
@@ -79,50 +49,22 @@ spec:
     metadata:
       labels:
         app: user-deployment
-        role: user
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
       - name: user
         image: registrylcg5206.azurecr.io/user:1.0
-        securityContext:
-          runAsUser: 1000
-          allowPrivilegeEscalation: false
-        volumeMounts:
-          - name: secret-volume # same name as volume below
-            mountPath: "/mnt/secrets"
-            readOnly: true
         ports:
         - containerPort: 80
         env:
         - name: SQL_SERVER
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_SERVER
+          value: "host.docker.internal"
         - name: SQL_DBNAME
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_DBNAME
+          value: "mydrivingDB"
         - name: SQL_USER
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_USER
+          value: "SA"
         - name: SQL_PASSWORD
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_PASSWORD
-      volumes:
-      - name: secret-volume
-        csi:
-          driver: secrets-store.csi.k8s.io
-          readOnly: true
-          volumeAttributes:
-            secretProviderClass: kv-desafio4
+          value: "Vivo123@"
+
 ---
 
 apiVersion: apps/v1
@@ -130,7 +72,6 @@ kind: Deployment
 metadata:
   name: user-java-deployment
   namespace: api
-
 spec:
   selector:
     matchLabels:
@@ -140,50 +81,22 @@ spec:
     metadata:
       labels:
         app: user-java-deployment
-        role: user-java
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
       - name: user
         image: registrylcg5206.azurecr.io/user-java:1.0
-        securityContext:
-          runAsUser: 1000
-          allowPrivilegeEscalation: false
-        volumeMounts:
-          - name: secret-volume # same name as volume below
-            mountPath: "/mnt/secrets"
-            readOnly: true
         ports:
         - containerPort: 80
         env:
         - name: SQL_SERVER
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_SERVER
+          value: "host.docker.internal"
         - name: SQL_DBNAME
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_DBNAME
+          value: "mydrivingDB"
         - name: SQL_USER
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_USER
+          value: "SA"
         - name: SQL_PASSWORD
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_PASSWORD
-      volumes:
-      - name: secret-volume
-        csi:
-          driver: secrets-store.csi.k8s.io
-          readOnly: true
-          volumeAttributes:
-            secretProviderClass: kv-desafio4
+          value: "Vivo123@"
+
 ---
 
 apiVersion: apps/v1
@@ -191,7 +104,6 @@ kind: Deployment
 metadata:
   name: trips-deployment
   namespace: api
-
 spec:
   selector:
     matchLabels:
@@ -201,50 +113,22 @@ spec:
     metadata:
       labels:
         app: trips-deployment
-        role: trips
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
       - name: user
         image: registrylcg5206.azurecr.io/trips:1.0
-        securityContext:
-          runAsUser: 1000
-          allowPrivilegeEscalation: false
-        volumeMounts:
-          - name: secret-volume # same name as volume below
-            mountPath: "/mnt/secrets"
-            readOnly: true
         ports:
         - containerPort: 80
         env:
         - name: SQL_SERVER
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_SERVER
+          value: "host.docker.internal"
         - name: SQL_DBNAME
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_DBNAME
+          value: "mydrivingDB"
         - name: SQL_USER
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_USER
+          value: "SA"
         - name: SQL_PASSWORD
-          valueFrom: 
-            secretKeyRef:
-              name: db-user-pass
-              key: SQL_PASSWORD
-      volumes:
-      - name: secret-volume
-        csi:
-          driver: secrets-store.csi.k8s.io
-          readOnly: true
-          volumeAttributes:
-            secretProviderClass: kv-desafio4
+          value: "Vivo123@"
+
 ---
 
 apiVersion: apps/v1
@@ -252,7 +136,6 @@ kind: Deployment
 metadata:
   name: tripviewer-deployment
   namespace: web
-
 spec:
   selector:
     matchLabels:
@@ -262,40 +145,18 @@ spec:
     metadata:
       labels:
         app: tripviewer-deployment
-        role: tripviewer
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
       - name: user
         image: registrylcg5206.azurecr.io/tripviewer:1.1
-        securityContext:
-          runAsUser: 1000
-          allowPrivilegeEscalation: false
         ports:
         - containerPort: 80
         env:
         - name: TRIPS_API_ENDPOINT
-          value: "http://trips-service.api.svc.cluster.local"
+          value: "http://trips-service.api.svc.cluster.local/api/trips"
         - name: USERPROFILE_API_ENDPOINT
-          value: "http://user-service.api.svc.cluster.local"
+          value: "http://user-service.api.svc.cluster.local/api/user"
 
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: poi-service
-  namespace: api
-spec:
-  selector:
-    app: poi-deployment
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: ClusterIP
 
 ---
 
@@ -334,11 +195,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-java-service
-  namespace: api
+  name: tripviewer-service
+  namespace: web
 spec:
   selector:
-    app: user-java-deployment
+    app: tripviewer-deployment
   ports:
     - protocol: TCP
       port: 80
@@ -350,11 +211,27 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tripviewer-service
-  namespace: web
+  name: poi-service
+  namespace: api
 spec:
   selector:
-    app: tripviewer-deployment
+    app: poi-deployment
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-java-service
+  namespace: api
+spec:
+  selector:
+    app: user-java-deployment
   ports:
     - protocol: TCP
       port: 80
