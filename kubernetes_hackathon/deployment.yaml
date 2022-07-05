@@ -40,8 +40,8 @@ spec:
               key: SQL_USER
         - name: SQL_PASSWORD
           valueFrom: 
-            configMapKeyRef:
-              name: db-configmap
+            secretKeyRef:
+              name: db-secret
               key: SQL_PASSWORD
         - name: ASPNETCORE_ENVIRONMENT
           value: "Local"
@@ -85,8 +85,8 @@ spec:
               key: SQL_USER
         - name: SQL_PASSWORD
           valueFrom: 
-            configMapKeyRef:
-              name: db-configmap
+            secretKeyRef:
+              name: db-secret
               key: SQL_PASSWORD
 
 
@@ -130,8 +130,8 @@ spec:
               key: SQL_USER
         - name: SQL_PASSWORD
           valueFrom: 
-            configMapKeyRef:
-              name: db-configmap
+           secretKeyRef:
+              name: db-secret
               key: SQL_PASSWORD
 
 ---
@@ -174,8 +174,8 @@ spec:
               key: SQL_USER
         - name: SQL_PASSWORD
           valueFrom: 
-            configMapKeyRef:
-              name: db-configmap
+            secretKeyRef:
+              name: db-secret
               key: SQL_PASSWORD
 
 ---
