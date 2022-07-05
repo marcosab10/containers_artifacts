@@ -24,13 +24,25 @@ spec:
         - containerPort: 80
         env:
         - name: SQL_SERVER
-          value: "host.docker.internal"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_SERVER
         - name: SQL_DBNAME
-          value: "mydrivingDB"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_DBNAME
         - name: SQL_USER
-          value: "SA"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_USER
         - name: SQL_PASSWORD
-          value: "Vivo123@"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_PASSWORD
         - name: ASPNETCORE_ENVIRONMENT
           value: "Local"
 ---
@@ -57,13 +69,26 @@ spec:
         - containerPort: 80
         env:
         - name: SQL_SERVER
-          value: "host.docker.internal"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_SERVER
         - name: SQL_DBNAME
-          value: "mydrivingDB"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_DBNAME
         - name: SQL_USER
-          value: "SA"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_USER
         - name: SQL_PASSWORD
-          value: "Vivo123@"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_PASSWORD
+
 
 ---
 
@@ -89,13 +114,25 @@ spec:
         - containerPort: 80
         env:
         - name: SQL_SERVER
-          value: "host.docker.internal"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_SERVER
         - name: SQL_DBNAME
-          value: "mydrivingDB"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_DBNAME
         - name: SQL_USER
-          value: "SA"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_USER
         - name: SQL_PASSWORD
-          value: "Vivo123@"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_PASSWORD
 
 ---
 
@@ -121,13 +158,25 @@ spec:
         - containerPort: 80
         env:
         - name: SQL_SERVER
-          value: "host.docker.internal"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_SERVER
         - name: SQL_DBNAME
-          value: "mydrivingDB"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_DBNAME
         - name: SQL_USER
-          value: "SA"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_USER
         - name: SQL_PASSWORD
-          value: "Vivo123@"
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: SQL_PASSWORD
 
 ---
 

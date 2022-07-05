@@ -7,6 +7,16 @@ az aks show -g teamResources -n desafio4 --query "addonProfiles.azureKeyvaultSec
 
 
 -------------------------------
+Validating Kubernetes YAML for best practice and policies
+https://learnk8s.io/validating-kubernetes-yaml
+
+brew install wget
+wget https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-darwin-amd64.tar.gz
+tar xf kubeval-darwin-amd64.tar.gz
+sudo cp kubeval /usr/local/bin
+
+kubeval deployment.yaml 
+
 
 ConnectionStrings: Server=localhost,1433;User Id=sa;Password=Vivo123@
 docker exec -it mydrivingDB /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P Vivo123@
@@ -32,6 +42,7 @@ kubectl get all -n api
 kubectl get all -n web
 
 kubectl logs tripviewer-deployment-68c6464456-tvjqr -n web
+kubectl logs poi-deployment-d6cc4d9bd-f65px -n api
 
 kubectl exec -it tripviewer-deployment-68c6464456-tvjqr -n web -- sh
 kubectl exec -it trips-deployment-69548b94b7-rbxfl -n api -- sh
