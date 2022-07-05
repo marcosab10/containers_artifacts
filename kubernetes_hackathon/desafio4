@@ -1,0 +1,90 @@
+az aks get-credentials -g teamResources --name desafio4
+az keyvault create --name desafio4-kv -g teamResources --location brazilsouth
+az keyvault secret set --vault-name "desafio4-kv" --name "db-user-pass" --value "ThisIsMyDemoSecret!"
+az aks show -g teamResources -n desafio4 --query "addonProfiles.azureKeyvaultSecretsProvider.identity.objectId"
+az keyvault set-policy --name desafio4-kv --object-id "820bb8c8-18d1-4484-bd8b-a9bc944bdeaf" --secret-permissions "get"
+az aks show -g teamResources -n desafio4 --query "addonProfiles.azureKeyvaultSecretsProvider.identity.clientId"
+
+
+-------------------------------
+
+ConnectionStrings: Server=localhost,1433;User Id=sa;Password=Vivo123@
+docker exec -it mydrivingDB /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P Vivo123@
+docker exec -it mydrivingDB /opt/mssql-tools/bin/sqlcmd -S MacBook-Pro-de-Marcos.local,1433 -U sa -P Vivo123@
+
+CREATE DATABASE mydrivingDB;
+
+ConnectionStrings: Server=localhost,1433;database=mydrivingDB;User Id=sa;Password=Vivo123@
+
+docker run --name mydrivingDB --hostname mydrivingDB --network sql_hackathon -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Vivo123@' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-latest
+docker run --network sql_hackathon -e SQLFQDN=mydrivingDB -e SQLUSER=SA -e SQLPASS=Vivo123@ -e SQLDB=mydrivingDB registrylcg5206.azurecr.io/dataload:1.0
+
+
+docker image build -t registrylcg5206.azurecr.io/poi:1.0 .
+docker image build -t registrylcg5206.azurecr.io/user:1.0 .
+docker image build -t registrylcg5206.azurecr.io/user-java:1.0 .
+docker image build -t registrylcg5206.azurecr.io/trips:1.0 .
+docker image build -t registrylcg5206.azurecr.io/tripviewer:1.1 .
+
+
+kubectl apply -f deployment_challenge_2.yaml
+kubectl get all -n api
+kubectl get all -n web
+
+kubectl logs tripviewer-deployment-68c6464456-tvjqr -n web
+
+kubectl exec -it tripviewer-deployment-68c6464456-tvjqr -n web -- sh
+kubectl exec -it trips-deployment-69548b94b7-rbxfl -n api -- sh
+
+
+kubectl exec -it ingress-nginx-controller-778667bc4b-fnwjb -n ingress-nginx -- sh
+
+------------- INGRESS -------------
+https://kubernetes.github.io/ingress-nginx/deploy/#provider-specific-steps
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.1/deploy/static/provider/cloud/deploy.yaml
+
+
+kubectl describe ingress ingress-tripviewer -n web
+
+service.namespace.svc.cluster.local
+
+curl http://trips-service.api.svc.cluster.local/api/trips
+curl http://host.docker.internal/api/trips
+
+curl http://localhost/api/trips
+
+
+curl http://localhost/api/user
+
+# Descobrir o ip que está rodando o cluster
+echo $(kubectl get nodes --namespace web -o jsonpath="{.items[0].status.addresses[0].address}")
+192.168.65.4
+
+curl http://192.168.65.4:8080
+
+kubectl delete ing ingress-poi -n ingress-nginx
+kubectl delete ing ingress-trips -n ingress-nginx
+kubectl delete ing ingress-tripviewer -n ingress-nginx
+kubectl delete ing ingress-user -n ingress-nginx
+kubectl delete ing ingress-user-java -n ingress-nginx
+
+
+spec:
+  ports:
+  - appProtocol: http
+    name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - appProtocol: https
+    name: https
+    port: 443
+    protocol: TCP
+    targetPort: https
+    nodePort: 31000
+  selector:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+  type: NodePort

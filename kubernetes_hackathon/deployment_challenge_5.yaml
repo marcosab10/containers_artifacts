@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: insurance-deployment
+  labels:
+    deploy: insurance
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: insurance
+  template:
+    metadata:
+      labels:
+        app: insurance
+    spec:
+      containers:
+      - image: "registrylcg5206.azurecr.io/insurance:1.0"
+        imagePullPolicy: Always
+        name: insurance
+        ports:
+        - containerPort: 8081
+          name: http
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 6
+            memory: "5Gi" 
+          requests:
+            cpu: 6
+            memory: "5Gi" 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: insurance
+spec:
+  type: ClusterIP
+  selector:
+    app: insurance
+  ports:
+  - protocol: TCP
+    name: insurance-http
+    port: 80
+    targetPort: 8081
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  annotations:    
+    kubernetes.io/ingress.class: azure/application-gateway
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS" 
+  name: ingress-insurance
+spec:  
+  rules:    
+    - host: hackathonteam7.brazilsouth.cloudapp.azure.com
+      http:        
+        paths:          
+          - path: /api/insurance
+            pathType: Prefix
+            backend:              
+              service:                
+                name: insurance-http
+                port:
+                  number: 80  
+  tls:    
+    - hosts:      
+      - hackathonteam7.brazilsouth.cloudapp.azure.com

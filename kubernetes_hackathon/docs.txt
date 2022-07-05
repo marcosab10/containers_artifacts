@@ -1,0 +1,53 @@
+https://docs.microsoft.com/pt-br/azure/aks/azure-ad-rbac
+https://docs.microsoft.com/pt-br/azure/role-based-access-control/role-assignments-portal?tabs=current
+
+http://hackathonteam7.brazilsouth.cloudapp.azure.com/api/trips
+
+
+- Your team restricted access from the deployed services access to kube-apiserver
+Criar uma Role que permita apenas leitura do namespace kube-system aos deployments?
+
+- Your team limited the access to the Kubernetes API Server to only machines from your location
+Restringir range de ips que pode acessar o servidor do AKS:
+https://docs.microsoft.com/pt-br/azure/aks/api-server-authorized-ip-ranges
+
+- Your team restricted ability to deploy applications that have root access
+securityContext nos deployments:
+https://kubernetes.io/blog/2021/11/09/non-root-containers-and-devices/
+
+- Your team limited the egress traffic from the cluster
+Restrict egress traffic using Azure firewall:
+https://docs.microsoft.com/en-us/azure/aks/limit-egress-traffic
+
+
+- Your team demonstrated that the API applications cannot call each other
+https://kubernetes.io/pt-br/docs/concepts/services-networking/network-policies/
+
+
+- Your team enabled sql server access from inside the vnet only
+
+- Your team has enabled the trip service access to SQL DB utilizing a managed identity.
+
+
+=====================================================
+
+tripviewer-deployment
+user-deployment
+trips-deployment
+
+
+
+poi-deployment
+user-java-deployment
+insurance-deployment
+ 
+
+
+ egress:
+  - to:
+    - ipBlock:
+        cidr: 10.0.0.0/24
+    ports:
+    - protocol: TCP
+      port: 80
+

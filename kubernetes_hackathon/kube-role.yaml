@@ -1,0 +1,31 @@
+---
+
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: no-access
+  namespace: kube-system
+rules:
+- apiGroups: [""]
+  resources: [""]
+  verbs: [""]
+
+---
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: no-access-rb
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: api-full-access
+subjects:
+- kind: Group
+  namespace: api
+  name: 8e4c558e-5a7a-4419-a95c-c39289feb531
+- kind: Group
+  namespace: web
+  name: 8e4c558e-5a7a-4419-a95c-c39289feb531
+

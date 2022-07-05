@@ -1,0 +1,138 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  annotations:    
+    kubernetes.io/ingress.class: azure/application-gateway
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS" 
+  name: ingress-poi
+  namespace: api
+  labels:
+    role: ingress-poi
+spec:  
+  rules:    
+    - host: hackathonteam7.brazilsouth.cloudapp.azure.com
+      http:        
+        paths:          
+          - path: /api/poi
+            pathType: Prefix
+            backend:              
+              service:                
+                name: poi-service
+                port:
+                  number: 80  
+  tls:    
+    - hosts:      
+      - hackathonteam7.brazilsouth.cloudapp.azure.com
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  annotations:    
+    kubernetes.io/ingress.class: azure/application-gateway
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS" 
+  name: ingress-trips
+  namespace: api
+  labels:
+    role: ingress-trips
+spec:  
+  rules:    
+    - host: hackathonteam7.brazilsouth.cloudapp.azure.com
+      http:        
+        paths:          
+          - path: /api/trips
+            pathType: Prefix
+            backend:              
+              service:                
+                name: trips-service
+                port:
+                  number: 80  
+  tls:    
+    - hosts:      
+      - hackathonteam7.brazilsouth.cloudapp.azure.com
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  annotations:    
+    kubernetes.io/ingress.class: azure/application-gateway
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS" 
+  name: ingress-user
+  namespace: api
+  labels:
+    role: ingress-user
+spec:  
+  rules:    
+    - host: hackathonteam7.brazilsouth.cloudapp.azure.com
+      http:        
+        paths:          
+          - path: /api/user
+            pathType: Prefix
+            backend:              
+              service:                
+                name: user-service
+                port:
+                  number: 80  
+  tls:    
+    - hosts:      
+      - hackathonteam7.brazilsouth.cloudapp.azure.com
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  annotations:    
+    kubernetes.io/ingress.class: azure/application-gateway
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS" 
+  name: ingress-user-java
+  namespace: api
+  labels:
+    role: ingress-user-java
+spec:  
+  rules:    
+    - host: hackathonteam7.brazilsouth.cloudapp.azure.com
+      http:        
+        paths:          
+          - path: /api/user-java
+            pathType: Prefix
+            backend:              
+              service:                
+                name: user-java-service
+                port:
+                  number: 80  
+  tls:    
+    - hosts:      
+      - hackathonteam7.brazilsouth.cloudapp.azure.com
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  annotations:    
+    kubernetes.io/ingress.class: azure/application-gateway
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS" 
+  name: ingress-tripviewer
+  namespace: web
+  labels:
+    role: ingress-tripviewer
+spec:  
+  rules:    
+    - host: hackathonteam7.brazilsouth.cloudapp.azure.com
+      http:        
+        paths:          
+          - path: /
+            pathType: Prefix
+            backend:              
+              service:                
+                name: tripviewer-service
+                port:
+                  number: 80  
+  tls:    
+    - hosts:      
+      - hackathonteam7.brazilsouth.cloudapp.azure.com

@@ -1,0 +1,39 @@
+# ingress-poi
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: user-network-policy
+  namespace: api
+spec:
+  podSelector:
+    matchLabels:
+      role: user
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: tripviewer
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: trips-network-policy
+  namespace: api
+spec:
+  podSelector:
+    matchLabels:
+      role: trips
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: tripviewer
+
+

@@ -1,0 +1,118 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  name: ingress-poi
+  namespace: api
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:  
+  rules:    
+    - host: localhost
+      http:        
+        paths:          
+          - path: /api/poi
+            pathType: Prefix
+            backend:              
+              service:                
+                name: poi-service
+                port:
+                  number: 80  
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  name: ingress-trips
+  namespace: api
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:  
+  rules:    
+    - host: localhost
+      http:        
+        paths:          
+          - path: /api/trips
+            pathType: Prefix
+            backend:              
+              service:                
+                name: trips-service
+                port:
+                  number: 80  
+  
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  name: ingress-user
+  namespace: api
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:  
+  rules:    
+    - host: localhost
+      http:        
+        paths:          
+          - path: /api/user
+            pathType: Prefix
+            backend:              
+              service:                
+                name: user-service
+                port:
+                  number: 80  
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  name: ingress-user-java
+  namespace: api
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:  
+  rules:    
+    - host: localhost
+      http:        
+        paths:          
+          - path: /api/user-java
+            pathType: Prefix
+            backend:              
+              service:                
+                name: user-java-service
+                port:
+                  number: 80  
+  
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  name: ingress-tripviewer
+  namespace: web
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:  
+  rules:    
+    - host: localhost
+      http:        
+        paths:          
+          - path: /
+            pathType: Prefix
+            backend:              
+              service:                
+                name: tripviewer-service
+                port:
+                  number: 80  
+         
+---
+
