@@ -41,11 +41,11 @@ kubectl apply -f deployment_challenge_2.yaml
 kubectl get all -n api
 kubectl get all -n web
 
-kubectl logs tripviewer-deployment-68c6464456-tvjqr -n web
-kubectl logs poi-deployment-d6cc4d9bd-f65px -n api
+kubectl logs tripviewer-deployment-68c6464456-xmh79 -n web
+kubectl logs poi-deployment-676854c4c4-ctzpf -n api
 
-kubectl exec -it tripviewer-deployment-68c6464456-tvjqr -n web -- sh
-kubectl exec -it trips-deployment-69548b94b7-rbxfl -n api -- sh
+kubectl exec -it tripviewer-deployment-68c6464456-xmh79 -n web -- sh
+kubectl exec -it poi-deployment-676854c4c4-ctzpf -n api -- sh
 
 
 kubectl exec -it ingress-nginx-controller-778667bc4b-fnwjb -n ingress-nginx -- sh
@@ -61,11 +61,10 @@ kubectl describe ingress ingress-tripviewer -n web
 service.namespace.svc.cluster.local
 
 curl http://trips-service.api.svc.cluster.local/api/trips
+curl http://user-service.api.svc.cluster.local/api/user
+
 curl http://host.docker.internal/api/trips
-
 curl http://localhost/api/trips
-
-
 curl http://localhost/api/user
 
 # Descobrir o ip que está rodando o cluster
@@ -80,22 +79,34 @@ kubectl delete ing ingress-tripviewer -n ingress-nginx
 kubectl delete ing ingress-user -n ingress-nginx
 kubectl delete ing ingress-user-java -n ingress-nginx
 
+================================== networkpolicy ======================================
+https://docs.aws.amazon.com/eks/latest/userguide/calico.html
 
-spec:
-  ports:
-  - appProtocol: http
-    name: http
-    port: 80
-    protocol: TCP
-    targetPort: http
-  - appProtocol: https
-    name: https
-    port: 443
-    protocol: TCP
-    targetPort: https
-    nodePort: 31000
-  selector:
-    app.kubernetes.io/component: controller
-    app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/name: ingress-nginx
-  type: NodePort
+1- Apply the Calico manifests to your cluster. These manifests create a DaemonSet in the calico-system namespace.
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-operator.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-crs.yaml
+
+2- View the resources in the calico-system namespace.
+kubectl get daemonset calico-node --namespace calico-system
+
+
+kubectl apply -f networkPolicy.yaml 
+kubectl delete -f networkPolicy.yaml 
+
+watch kubectl get networkpolicy -n api
+
+watch kubectl get pods -A -o wide
+kubectl exec -it poi-deployment-676854c4c4-ctzpf -n api -- sh
+kubectl exec -it tripviewer-deployment-68c6464456-xmh79 -n web -- sh
+curl 10.1.0.143/api/trips
+
+kubectl get namespaces
+kubectl describe namespaces default
+
+kubectl describe pod tripviewer-deployment-68c6464456-xmh79 -n web
+kubectl describe networkpolicy trips-network-policy -n api
+
+
+
+
+

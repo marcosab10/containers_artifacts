@@ -1,5 +1,3 @@
-# ingress-poi
-
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -8,14 +6,17 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      role: user
+      app: user-deployment
   policyTypes:
   - Ingress
   ingress:
   - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: web
     - podSelector:
         matchLabels:
-          role: tripviewer
+          app: tripviewer-deployment
 
 ---
 
@@ -27,13 +28,16 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      role: trips
+      app: trips-deployment
   policyTypes:
   - Ingress
   ingress:
   - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: web
     - podSelector:
         matchLabels:
-          role: tripviewer
+          app: tripviewer-deployment
 
 
