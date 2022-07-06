@@ -109,6 +109,21 @@ kubectl describe networkpolicy trips-network-policy -n api
 
 kubectl apply -n api -f https://docs.projectcalico.org/v3.5/getting-started/kubernetes/tutorials/stars-policy/policies/default-deny.yaml
 
+============================================ ISTIO ====================================================
+https://www.youtube.com/watch?v=voAyroDb6xk
+
+https://istio.io/latest/docs/setup/getting-started/
+curl -L https://istio.io/downloadIstio | sh -
+export PATH=$PATH:/Users/marcosfaria/istio/istio-1.14.1/bin
+
+# Install istio no cluster kubernetes
+ ./istioctl install 
+
+# Mostrar as labels de um namespace
+kubectl get ns api --show-labels
+
+# Adicionar uma label a um namespace
+kubectl label namespace api istio-injection=enabled
 
 
 
